@@ -1,0 +1,7 @@
+spring.application:
+  name: sk-agent
+
+azure.openai:
+  api-key: ${AZURE_OPENAI_KEY}
+  endpoint: ${AZURE_OPENAI_ENDPOINT}
+  model: gpt-4o-mini
