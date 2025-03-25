@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import static org.springframework.http.MediaType.APPLICATION_NDJSON_VALUE;
+
 
 @AllArgsConstructor
 @RestController
@@ -18,13 +20,13 @@ public class ChatController {
 	private final AzureOpenAiChatModel chatModel;
 	private final Gson gson = new Gson();
 
-	@GetMapping("/ai/generate")
-	public Flux<Object> generate(@RequestParam(value = "message", defaultValue = "Tell me a joke") String message) {
+	@GetMapping(value = "/ai/generate", produces = APPLICATION_NDJSON_VALUE)
+	public Flux<Object> generate(@RequestParam(value = "message", defaultValue = "Who are you") String message) {
 		var chatClient = ChatClient.create(chatModel)
-				.prompt("What day is tomorrow?")
+				.prompt(message)
 				.tools(new DateTimeTools());
 
-		return chatClient.stream().chatResponse()
+		return chatClient.stream().content()
 				.cast(Object.class);
 	}
 }
