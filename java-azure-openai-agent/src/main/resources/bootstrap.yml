@@ -1,0 +1,13 @@
+spring.application:
+  name: azure-openai-agent
+
+spring:
+  ai:
+    azure.openai:
+      api-key: ${AZURE_OPENAI_KEY}
+      endpoint: ${AZURE_OPENAI_ENDPOINT}
+      chat:
+        options:
+          deployment-name: gpt-4o-mini
+          temperature: 0.69
+          max-tokens: 250
