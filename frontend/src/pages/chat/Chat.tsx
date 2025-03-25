@@ -61,6 +61,8 @@ const Chat = () => {
             return new Promise(resolve => {
                 setTimeout(() => {
                     answer += newContent;
+                    console.log(askResponse)
+
                     const latestResponse: ChatAppResponse = {
                         ...askResponse,
                         choices: [{ ...askResponse.choices[0], message: { content: answer, role: askResponse.choices[0].message.role } }]
@@ -136,6 +138,7 @@ const Chat = () => {
             if (stream) {
                 const parsedResponse: ChatAppResponse = await handleAsyncRequest(question, answers, setAnswers, response.body);
                 setAnswers([...answers, [question, parsedResponse]]);
+                console.log(parsedResponse)
             } else {
                 const parsedResponse: ChatAppResponseOrError = await response.json();
                 if (response.status > 299 || !response.ok) {

@@ -1,0 +1,10 @@
+server:
+  port: 8083
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+    org.springframework.web.reactive: DEBUG
+    org.springframework.http: DEBUG
+    reactor.netty.http.client: DEBUG
+    reactor.netty.http.server: DEBUG
