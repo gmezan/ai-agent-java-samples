@@ -1,5 +1,6 @@
 package com.gmezan.ai.skagent.controller;
 
+import com.gmezan.ai.skagent.agent.SearchAgent;
 import com.gmezan.ai.skagent.model.web.ChatRequest;
 import com.gmezan.ai.skagent.model.web.ResponseModel;
 import com.gmezan.ai.skagent.service.ChatService;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 @CrossOrigin
 public class ChatController {
 	private final ChatService chatService;
+	private final SearchAgent searchAgent;
 
 	@PostMapping(value = "/api/chat", produces = MediaType.APPLICATION_JSON_VALUE,
 		consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -46,7 +48,7 @@ public class ChatController {
 
 		return Mono.justOrEmpty(request)
 				.map(this::toChatHistory)
-				.flatMapMany(chatService::getCompletionStream)
+				.flatMapMany(searchAgent::chat)
 				.mapNotNull(KernelContent::getContent)
 				.onErrorComplete()
 				.index()
