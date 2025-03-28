@@ -1,6 +1,5 @@
 package com.gmezan.ai.skagent.service;
 
-import com.azure.ai.openai.OpenAIAsyncClient;
 import com.google.gson.Gson;
 import com.microsoft.semantickernel.Kernel;
 import com.microsoft.semantickernel.contextvariables.ContextVariableTypeConverter;
@@ -21,16 +20,13 @@ import java.util.List;
 
 @Service
 public class ChatService {
-	private final OpenAIAsyncClient openAIAsyncClient;
 	private final ChatCompletionService chatCompletionService;
 	private final Kernel kernel;
 	private final InvocationContext invocationContext;
 
-	public ChatService(OpenAIAsyncClient openAIAsyncClient,
-										 ChatCompletionService chatCompletionService,
+	public ChatService(ChatCompletionService chatCompletionService,
 										 PromptExecutionSettings promptExecutionSettings,
 										 Kernel kernel) {
-		this.openAIAsyncClient = openAIAsyncClient;
 		this.chatCompletionService = chatCompletionService;
 		this.kernel = kernel;
 
