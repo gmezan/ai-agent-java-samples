@@ -1,12 +1,15 @@
 spring.application:
-  name: sk-agent
+  name: rag-agent
 
 azure:
   openai:
     api-key: ${AZURE_OPENAI_KEY}
     endpoint: ${AZURE_OPENAI_ENDPOINT}
-    model: gpt-4o-mini
+    model: ${AZURE_OPENAI_MODEL}
   search:
     endpoint: ${AZURE_SEARCH_ENDPOINT}
     key: ${AZURE_SEARCH_KEY}
     index-name: ${AZURE_SEARCH_IDX_NAME}
+  storage:
+    connection-string: ${AZURE_STORAGE_CS}
+    container: ${AZURE_STORAGE_CONTAINER}

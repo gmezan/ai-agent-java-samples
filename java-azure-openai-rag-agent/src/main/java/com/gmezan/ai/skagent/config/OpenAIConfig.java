@@ -48,7 +48,7 @@ public class OpenAIConfig {
 	@Bean
 	public PromptExecutionSettings promptSettings() {
 		return PromptExecutionSettings.builder()
-				.withMaxTokens(300)
+				.withMaxTokens(500)
 				.withResultsPerPrompt(1)
 				.build();
 	}

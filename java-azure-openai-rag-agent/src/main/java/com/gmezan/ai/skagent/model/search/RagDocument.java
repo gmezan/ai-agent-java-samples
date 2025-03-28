@@ -4,6 +4,8 @@ import com.azure.search.documents.indexes.SimpleField;
 import lombok.Data;
 import lombok.ToString;
 
+import java.util.List;
+
 @ToString
 @Data
 public class RagDocument {
@@ -15,4 +17,8 @@ public class RagDocument {
 	private String chunkId;
 	@SimpleField
 	private String chunk;
+	@SimpleField
+	private List<String> skills;
+	@SimpleField
+	private List<String> products;
 }

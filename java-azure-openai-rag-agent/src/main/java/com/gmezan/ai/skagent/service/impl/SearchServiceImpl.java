@@ -28,29 +28,34 @@ public class SearchServiceImpl implements SearchService {
 
 	@Override
 	public Flux<RagDocument> search(String query) {
-		String vectorQuery = "{\"kind\": \"text\",\"text\": \"*\",\"fields\": \"text_vector\"}";
+		String jsonQuery = """
+				{
+					"kind": "text",
+					"text": "%s",
+					"fields": "text_vector"
+				}
+				""".formatted(query);
 
-		JsonReader jsonReader = null;
+		VectorQuery vectorQuery;
+
 		try {
-			jsonReader = JsonProviders.createReader(vectorQuery);
+			JsonReader jsonReader = JsonProviders.createReader(jsonQuery);
+			vectorQuery = VectorQuery.fromJson(jsonReader)
+					.setKNearestNeighborsCount(50);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 
-		try {
-			return searchAsyncClient.search(query,
-							new SearchOptions()
-									.setQueryType(QueryType.SIMPLE)
-									.setVectorSearchOptions(
-											new VectorSearchOptions()
-													.setQueries(VectorQuery.fromJson(jsonReader)))
-									.setSelect("title", "chunk")
-									.setTop(5)
-					)
-					.map(t -> t.getDocument(RagDocument.class))
-					.subscribeOn(Schedulers.boundedElastic());
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+		return searchAsyncClient.search(query,
+						new SearchOptions()
+								.setQueryType(QueryType.SIMPLE)
+								.setVectorSearchOptions(
+										new VectorSearchOptions()
+												.setQueries(vectorQuery))
+								.setTop(5)
+				)
+				.map(t -> t.getDocument(RagDocument.class))
+				.subscribeOn(Schedulers.boundedElastic());
 	}
+
 }

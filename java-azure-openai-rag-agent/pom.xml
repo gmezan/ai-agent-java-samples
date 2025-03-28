@@ -84,6 +84,11 @@
             <groupId>com.azure</groupId>
             <artifactId>azure-search-documents</artifactId>
         </dependency>
+        <!-- Azure Blob -->
+        <dependency>
+            <groupId>com.azure.spring</groupId>
+            <artifactId>spring-cloud-azure-starter-storage-blob</artifactId>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>
