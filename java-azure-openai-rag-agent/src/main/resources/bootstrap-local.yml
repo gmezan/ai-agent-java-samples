@@ -8,3 +8,4 @@ logging:
     org.springframework.http: DEBUG
     reactor.netty.http.client: DEBUG
     reactor.netty.http.server: DEBUG
+    com.microsoft.semantickernel: DEBUG

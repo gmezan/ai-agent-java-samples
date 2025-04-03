@@ -49,7 +49,7 @@ public class OpenAIConfig {
 	public PromptExecutionSettings promptSettings() {
 		return PromptExecutionSettings.builder()
 				.withMaxTokens(500)
-				.withResultsPerPrompt(1)
+				.withTemperature(0.7)
 				.build();
 	}
 }
