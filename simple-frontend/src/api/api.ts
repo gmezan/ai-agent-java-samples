@@ -1,8 +1,8 @@
-import { ChatAppResponse, ChatAppResponseOrError, ChatAppRequest } from "./models";
+import { ChatAppRequest } from "./models";
 
 const BACKEND_URI = import.meta.env.VITE_BACKEND_URI ? import.meta.env.VITE_BACKEND_URI : "";
 
-function getHeaders(idToken: string | undefined, stream:boolean): Record<string, string> {
+function getHeaders(stream:boolean): Record<string, string> {
     var headers: Record<string, string> = {
         "Content-Type": "application/json"
     };
@@ -16,25 +16,10 @@ function getHeaders(idToken: string | undefined, stream:boolean): Record<string,
     return headers;
 }
 
-export async function askApi(request: ChatAppRequest, idToken: string | undefined): Promise<ChatAppResponse> {
-    const response = await fetch(`${BACKEND_URI}/ask`, {
-        method: "POST",
-        headers: getHeaders(idToken, request.stream || false),
-        body: JSON.stringify(request)
-    });
-
-    const parsedResponse: ChatAppResponseOrError = await response.json();
-    if (response.status > 299 || !response.ok) {
-        throw Error(parsedResponse.error || "Unknown error");
-    }
-
-    return parsedResponse as ChatAppResponse;
-}
-
-export async function chatApi(request: ChatAppRequest, idToken: string | undefined): Promise<Response> {
+export async function chatApi(request: ChatAppRequest): Promise<Response> {
     return await fetch(`${BACKEND_URI}/chat`, {
         method: "POST",
-        headers: getHeaders(idToken, request.stream || false),
+        headers: getHeaders(request.stream || false),
         body: JSON.stringify(request)
     });
 }

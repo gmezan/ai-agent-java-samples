@@ -12,7 +12,7 @@ export function parseAnswerToHtml(answer: string, isStreaming: boolean, onCitati
     const followupQuestions: string[] = [];
 
     // Extract any follow-up questions that might be in the answer
-    let parsedAnswer = answer.replace(/<<([^>>]+)>>/g, (match, content) => {
+    let parsedAnswer = answer.replace(/<<([^>>]+)>>/g, (content) => {
         followupQuestions.push(content);
         return "";
     });
