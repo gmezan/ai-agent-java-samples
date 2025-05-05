@@ -6,32 +6,20 @@ metadata:
   name: app-openai-msi-sa
 
 ---
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: Pod
 metadata:
   labels:
-    app: app-openai-msi
-  name: app-openai-msi
+    azure.workload.identity/use: "true"  # Required. Only pods with this label can use workload identity.
+  name: java-aks-openai-msi
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: app-openai-msi
-  strategy: {}
-  template:
-    metadata:
-      labels:
-        app: app-openai-msi
-        azure.workload.identity/use: "true"  # Required. Only pods with this label can use workload identity.
-    spec:
-      serviceAccountName: app-openai-msi-sa
-      containers:
-        - image: ghcr.io/gmezan/java-aks-openai-msi:main
-          name: java-aks-openai-msi
-          env:
-            - name: AZURE_OPENAI_ENDPOINT
-              value: "${OPENAI_ENDPOINT}"
-            - name: AZURE_OPENAI_MODEL
-              value: "${OPENAI_MODEL}"
-          resources: {}
-status: {}
+  serviceAccountName: app-openai-msi-sa
+  containers:
+    - image: ghcr.io/gmezan/java-aks-openai-msi:main
+      name: java-aks-openai-msi
+      env:
+        - name: AZURE_OPENAI_ENDPOINT
+          value: "${OPENAI_ENDPOINT}"
+        - name: AZURE_OPENAI_MODEL
+          value: "${OPENAI_MODEL}"
+      resources: {}
