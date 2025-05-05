@@ -9,6 +9,12 @@ LOCATION=eastus2
 SUBSCRIPTION=<SUBSCRIPTION>
 OPENAI_NAME=<OPENAI_NAME>
 
+# Enable OIDC and workload identity
+az aks update --name $CLUSTER_NAME \
+              --resource-group $RESOURCE_GROUP \
+              --enable-oidc-issuer \
+              --enable-workload-identity
+
 # Get the cluster OIDC 
 export AKS_OIDC_ISSUER="$(az aks show --name $CLUSTER_NAME --resource-group $RESOURCE_GROUP --query "oidcIssuerProfile.issuerUrl" --output tsv)"
 
